@@ -57,10 +57,7 @@ public class BookService {
             } else {
                 System.out.println("Book is allready borrowed");
             }
-//                if (bookName.equalsIgnoreCase(be.getBookName())) {
-//                    c = 2;
-//                    break;
-//                }
+
         }
     }
 //        if (c == 1) {
