@@ -24,11 +24,19 @@ public class Book {
     public void setAuthorName(String authorName) {
         AuthorName = authorName;
     }
-
+public void display()
+    {
+        System.out.println("BOOKNAME: " +this.BookName);
+        System.out.println("ISBN: "+this.ISBN);
+        System.out.println("AUTHORNAME: "+this.AuthorName);
+    }
     public Owner getOwner() {
         return owner;
     }
+public Book()
+{
 
+}
     public Book(String ISBN, String bookName, String authorName, Owner owner) {
         this.owner = owner;
         this.ISBN = ISBN;

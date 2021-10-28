@@ -1,17 +1,22 @@
 package com.perennial.model;
+import java.security.Key;
+import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import com.perennial.model.Owner;
-public class BookService {
+public class BookService
+{
     Scanner sc = new Scanner(System.in);
-    Map<Integer, BorrowerEntry> register = new HashMap<>();
+    Map<String, BorrowerEntry> register = new HashMap<>();
     List<Book> booklist = new ArrayList<>();
+    List<Book> copylist=new ArrayList<>();
     List<Owner> ownerlist = new ArrayList<>();
     List<User> userlist = new ArrayList<>();
-    ArrayList<BorrowerEntry> BorrowerIssue = new ArrayList<BorrowerEntry>();
-    List<BorrowerEntry> Borrower = new ArrayList<>();
+    ArrayList<BorrowerEntry> BorrowerIssue = new ArrayList<>();
+    //List<BorrowerEntry> Borrower = new ArrayList<>();
+    Set<String> s = new HashSet<>();
 
     public void addbook() {
         System.out.println("Enter a owner name");
@@ -29,6 +34,7 @@ public class BookService {
         Book b = new Book(ISBN, bookName, authorName, o);
         booklist.add(b);
         System.out.println("SUCCESSFULLY BOOK ADDED");
+        copylist.add(b);
     }
 
     public void showbook() {
@@ -36,6 +42,7 @@ public class BookService {
     }
 
     public void IssuedBook() {
+
         System.out.println("Enter a BookName");
         String bookName = sc.next();
         System.out.println("Enter a Borrower Name");
@@ -44,25 +51,83 @@ public class BookService {
         long mobile = sc.nextLong();
         User u = new User(borrowername, mobile);
         userlist.add(u);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-        BorrowerEntry be = new BorrowerEntry(bookName, formatter, u);
-        BorrowerIssue.add(be);
-        Borrower.add(be);
+        LocalDate issuedate =LocalDate.now();
+        BorrowerEntry be = new BorrowerEntry(bookName, issuedate, u);
+
         int c = 0;
-        for (int i = 0; i < Borrower.size(); i++) {
-            if (bookName.equalsIgnoreCase(Borrower.get(i).getBookName())) {
-                c = 1;
-                Borrower.remove(be);
-                System.out.println("BOOK IS SUCCESFULLY BORROWED");
-            } else {
-                System.out.println("Book is allready borrowed");
+        for (int i = 0; i < booklist.size(); i++) {
+            if (bookName.equalsIgnoreCase(booklist.get(i).getBookName()))
+            {
+                for (int j = 0; j < copylist.size(); j++)
+                {
+                    if (bookName.equalsIgnoreCase(copylist.get(j).getBookName()))
+                    {
+                        copylist.remove(j);
+                        BorrowerIssue.add(be);
+                        System.out.println(" borrow");
+                    }
+                    else
+                    {
+                        System.out.println("ALLREADY");
+                        System.out.println(BorrowerIssue.get(j).toString());
+
+                    }
+                    break;
+                }
+                break;
             }
-//                if (bookName.equalsIgnoreCase(be.getBookName())) {
-//                    c = 2;
-//                    break;
-//                }
+            else
+            {
+                System.out.println("NOT IN LIST");
+                break;
+            }
+
         }
+
     }
+
+
+
+               //     BorrowerEntry be = new BorrowerEntry(bookName, issuedate, u);
+//                    register.put(bookName, be);
+//                    for (Map.Entry<String, BorrowerEntry> Entry : register.entrySet()) {
+//                        BorrowerEntry b = Entry.getValue();
+//                        System.out.println(b.toString());
+//                    }
+//                }
+
+//                    if (!bookName.equalsIgnoreCase(String.valueOf(s))) {
+//                        s.add();
+//                        System.out.println("BOOK IS BORROWED");
+//                        System.out.println(s);
+//                        break;
+//                    }
+//                    if (bookName.equalsIgnoreCase(String.valueOf(s)))
+//                    else {
+//                        System.out.println("BOOK IS allready BORROWED");
+//                        break;
+//                    }
+//                }
+
+
+
+
+
+
+//        for (int i = 0; i < booklist.size(); i++) {
+//            if (bookName.equalsIgnoreCase(booklist.get(i).getBookName())) {
+//                c = 1;
+//                Borrower.remove(be);
+//                System.out.println("BOOK IS SUCCESFULLY BORROWED");
+//            } else {
+//                System.out.println("Book is allready borrowed");
+//            }
+////                if (bookName.equalsIgnoreCase(be.getBookName())) {
+////                    c = 2;
+////                    break;
+////                }
+//        }
+//    }
 //        if (c == 1) {
 //            for (int j = 0; j < BorrowerIssue.size(); j++) {
 //                if (!bookName.equalsIgnoreCase(BorrowerIssue.get(j).getBookName())) {
@@ -77,7 +142,10 @@ public class BookService {
 //            }
 
 
-    public void searchbook() {
+
+
+    public void searchbook()
+    {
         System.out.println("You can search book  \n 1]Book Name \n 2]ISBN \n 3]Author Name");
         System.out.println("Enter Choice : ");
         int choice = sc.nextInt();
@@ -88,10 +156,17 @@ public class BookService {
             System.out.println("Enter Book Name:");
             String nameOfBook = sc.nextLine();
             for (int i = 0; i < booklist.size(); i++) {
-                if (nameOfBook.equalsIgnoreCase(booklist.get(i).getBookName())) {
-                    c = 1;
-                    System.out.println(booklist.get(i).toString());
-                    System.out.println("Book available");
+                if (nameOfBook.equalsIgnoreCase(booklist.get(i).getBookName()))
+                {
+                    if(nameOfBook.equalsIgnoreCase(BorrowerIssue.get(i).getBookName()))
+                    {
+                        System.out.println("book borrowed");
+                    }
+                    else {
+                        c = 1;
+                        System.out.println(booklist.get(i).toString());
+                        System.out.println("Book available");
+                    }
                 }
             }
 
@@ -108,11 +183,17 @@ public class BookService {
             String ISBNumber = sc.nextLine();
             for (int i = 0; i < booklist.size(); i++)
             {
-                if (ISBNumber.equalsIgnoreCase(booklist.get(i).getISBN())) {
-                    c=1;
-                    System.out.println(booklist.get(i).toString());
-                    System.out.println("Book for this ISB number is available");
-
+                if (ISBNumber.equalsIgnoreCase(booklist.get(i).getISBN()))
+                {
+                    if(ISBNumber.equalsIgnoreCase(BorrowerIssue.get(i).getISBN()))
+                    {
+                        System.out.println("book borrowed");
+                    }
+                    else {
+                        c = 1;
+                        System.out.println(booklist.get(i).toString());
+                        System.out.println("Book for this ISB number is available");
+                    }
                 }
 
             }
@@ -130,9 +211,15 @@ public class BookService {
             for (int i = 0; i < booklist.size(); i++) {
 
                 if (authorN.equalsIgnoreCase(booklist.get(i).getAuthorName())) {
-                    c = 1;
-                    System.out.println(booklist.get(i).toString());
-                    System.out.println("BOOK IS AVAILABLE");
+                    if(authorN.equalsIgnoreCase(BorrowerIssue.get(i).getAuthorName()))
+                    {
+                        System.out.println("book borrowed");
+                    }
+                    else {
+                        c = 1;
+                        System.out.println(booklist.get(i).toString());
+                        System.out.println("BOOK IS AVAILABLE");
+                    }
 
                 }
 
@@ -144,6 +231,24 @@ public class BookService {
         }
     }
 
+            public void Discontinue()
+            {
+                int c=0;
+                System.out.println("Eneter a book name");
+                String bname= sc.next();
+                for(int i=00;i<booklist.size();i++)
+                {
+                    if(bname.equalsIgnoreCase(booklist.get(i).getBookName()))
+                    {
+                        booklist.remove(i);
+                        System.out.println("BOOK REMOVED");
+                    }
+                }
+//                if(c==1)
+//                {
+//                    System.out.println("DO NOT REMOVE BOOK");
+//                }
+            }
 
 }
 

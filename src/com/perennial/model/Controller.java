@@ -42,6 +42,10 @@ public class Controller
                 operation();
                 break;
 
+            case 5:
+                bookService.Discontinue();
+                operation();
+                break;
 
         }
     }
