@@ -4,63 +4,71 @@ import java.util.ArrayList;
 
 public class Book {
     private String ISBN;
-    private String BookName;
-    private String AuthorName;
-    private Owner owner;
+    private String bookName;
+    private ArrayList<String> Author;
+    private User user;
+    private String status;
+
+    public Book(String ISBN, String bookName, ArrayList<String> author, User user,String status) {
+        this.ISBN = ISBN;
+        this.bookName = bookName;
+        Author = author;
+        this.user = user;
+        this.status=status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getISBN() {
         return ISBN;
-    }
-
-    public String getBookName() {
-        return BookName;
-    }
-
-
-    public String getAuthorName() {
-        return AuthorName;
-    }
-
-    public void setAuthorName(String authorName) {
-        AuthorName = authorName;
-    }
-public void display()
-    {
-        System.out.println("BOOKNAME: " +this.BookName);
-        System.out.println("ISBN: "+this.ISBN);
-        System.out.println("AUTHORNAME: "+this.AuthorName);
-    }
-    public Owner getOwner() {
-        return owner;
-    }
-public Book()
-{
-
-}
-    public Book(String ISBN, String bookName, String authorName, Owner owner) {
-        this.owner = owner;
-        this.ISBN = ISBN;
-        BookName = bookName;
-        AuthorName = authorName;
-    }
-    @Override
-    public String toString() {
-        return "Book{" +
-                " " + owner +
-                "ISBN='" + ISBN + '\'' +
-                ", BookName='" + BookName + '\'' +
-                ", AuthorName=" + AuthorName +
-
-                '}';
     }
 
     public void setISBN(String ISBN) {
         this.ISBN = ISBN;
     }
 
+    public String getBookName() {
+        return bookName;
+    }
+
     public void setBookName(String bookName) {
-        BookName = bookName;
+        this.bookName = bookName;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "ISBN='" + ISBN + '\'' +
+                ", bookName='" + bookName + '\'' +
+                ", Author=" + Author +
+                ", user=" + user +
+                ", status='" + status + '\'' +
+                '}';
+    }
+
+    public ArrayList<String> getAuthor() {
+        return Author;
+    }
+
+    public void setAuthor(ArrayList<String> author) {
+        Author = author;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
+
+
 
 

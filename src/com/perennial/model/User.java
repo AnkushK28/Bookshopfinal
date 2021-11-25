@@ -1,27 +1,37 @@
 package com.perennial.model;
 
 public class User {
-    private String usename;
+    private String username;
     private long usermobile;
+
+    public User(String username, long usermobile) {
+        this.username = username;
+        this.usermobile = usermobile;
+    }
 
     @Override
     public String toString() {
-        return  "usename=" + usename +
-                ", usermobile=" + usermobile +
+        return "Name=" + username +
+                ", Mobile=" + usermobile +
                 '}';
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getUsename() {
-        return usename;
+        return username;
     }
 
     public long getUsermobile() {
         return usermobile;
     }
 
-    public User(String usename, long usermobile) {
-        this.usename = usename;
+    public void setUsermobile(long usermobile) {
         this.usermobile = usermobile;
     }
+
+
 }
 
