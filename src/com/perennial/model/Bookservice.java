@@ -100,7 +100,7 @@ public class Bookservice {
                 LocalDate returnDate = LocalDate.now();
                 entry.setReturndate(returnDate);
                 borrowerEntryMap.remove(returnBookName);
-               logger.info("book return successfully " + entry.toString());
+                logger.info("book return successfully " + entry.toString());
                 break;
             }
         } else {
